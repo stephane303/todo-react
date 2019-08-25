@@ -1,63 +1,76 @@
-import React, { Component } from 'react';
-import Todos from './components/Todos';
-import './App.css';
-import Header from './components/layout/Header'
-import AddTodo from './components/AddTodo';
+import React, { Component } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import Todos from "./components/Todos";
+import "./App.css";
+import Header from "./components/layout/Header";
+import AddTodo from "./components/AddTodo";
+import About from "./components/pages/About";
+import Axios from "axios";
 
 class App extends Component {
   state = {
-    todos: [
-      {
-        id: 1,
-        title: 'Take out the trash',
-        completed: false
-      },
-      {
-        id: 2,
-        title: 'See the sunrise',
-        completed: true
-      },
-      {
-        id: 3,
-        title: 'Cry about my lost life',
-        completed: false
-      },
-    ]
+    todos: []
+  };
+
+  componentDidMount() {
+    Axios.get("https://jsonplaceholder.typicode.com/todos?_limit=10").then(
+      response => {
+        this.setState({ todos: response.data });
+      }
+    );
   }
 
-  markComplete = (id) => {
-    let toReplace = this.state.todos.find((item) => item.id === id);
+  markComplete = id => {
+    let toReplace = this.state.todos.find(item => item.id === id);
     toReplace.completed = !toReplace.completed;
     this.setState({ todos: this.state.todos });
-  }
+  };
 
-  deleted = (id) => {
-    this.setState({
-      todos: this.state.todos.filter(
-        (item) => (item.id !== id))
-    })
-  }
+  deleted = id => {
+    Axios.delete("https://jsonplaceholder.typicode.com/todos/" + id).then(
+      response =>
+        this.setState({
+          todos: this.state.todos.filter(item => item.id !== id)
+        })
+    );
+  };
 
-  addEvent = (title) => {
-    let maxId = this.state.todos.reduce( (max, current) => (current.id > max ? current.id:max),0);
-    this.setState({
-      todos: this.state.todos.concat({
-        title: title,
-        id: maxId + 1
+  addEvent = title => {
+    //let maxId = this.state.todos.reduce((max, current) => (current.id > max ? current.id : max), 0);
+    Axios.post("https://jsonplaceholder.typicode.com/todos", {
+      title: title,
+      completed: false
+    }).then(response =>
+      this.setState({
+        todos: this.state.todos.concat(response.data)
       })
-    })
-  }
+    );
+  };
   render() {
-    console.log(this.state.todos)
-    return (
-      <div className="App">
-        <div className="container">
-          <Header />
-          <AddTodo addEvent={(title) => this.addEvent(title)} />
-          <Todos todos={this.state.todos} markComplete={this.markComplete} deleted={this.deleted} />
 
+    return (
+      <BrowserRouter>
+        <div className="App">
+          <div className="container">
+            <Header />
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <React.Fragment>
+                  <AddTodo addEvent={title => this.addEvent(title)} />
+                  <Todos
+                    todos={this.state.todos}
+                    markComplete={this.markComplete}
+                    deleted={this.deleted}
+                  />
+                </React.Fragment>
+              )}
+            ></Route>
+            <Route path="/about" component={About} />
+          </div>
         </div>
-      </div>
+      </BrowserRouter>
     );
   }
 }

@@ -10,9 +10,6 @@ export class TodoItem extends Component {
     borderBottom: '1px #ccc dotted',
     textDecoration: (this.props.todo.completed?'line-through':'none')})
   
-  markComplete = (e) => {
-    console.log(this.props)
-  }
 
   render() {
     return (
@@ -41,5 +38,10 @@ TodoItem.proTypes = {
   todo : PropTypes.object.isRequired
 }
 
+TodoItem.proTypes = {
+  todos : PropTypes.array.isRequired,
+  markComplete : PropTypes.func.isRequired,
+  deleted : PropTypes.func.isRequired,
+}
 
 export default TodoItem
