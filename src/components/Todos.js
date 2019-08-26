@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useStoreState, useStoreActions} from 'easy-peasy';
 import TodoItem from "./TodoItem";
-import { fetchTodos } from "../redux/actions";
 
 function Todos() {
-  const todos = useSelector(state => state.todos.data);
-  const dispatch = useDispatch();
+  const todos = useStoreState(state => state.todos.data);
+  const fetchTodos = useStoreActions(state => state.todos.fetchTodos)
 
   useEffect(() => {
-    dispatch(fetchTodos());
+    fetchTodos();
     return ;
-  }, [dispatch]);
+  }, [fetchTodos]); 
 
   return todos.map(todo => <TodoItem key={todo.id} todo={todo} />);
 }

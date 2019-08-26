@@ -1,12 +1,10 @@
 import React from 'react'
-import {useDispatch} from 'react-redux';
+import {useStoreActions} from 'easy-peasy';
 import PropTypes from 'prop-types';
-import { deleteTodo, toggleTodo} from "../redux/actions";
-
 
 export function TodoItem({todo}) {
-
-  const dispatch = useDispatch();
+  const toggleTodo = useStoreActions(state => state.todos.toggleTodo);
+  const deleteTodo = useStoreActions(state => state.todos.deleteTodo);
   const getStyle = () => ({
     background: '#f4f4f4',
     padding: '10px',
@@ -14,11 +12,11 @@ export function TodoItem({todo}) {
     textDecoration: (todo.completed?'line-through':'none')})
   
   function markComplete(id){
-    dispatch(toggleTodo(id));
+    toggleTodo({id});
   }
 
   function handleDeleteTodo(id){
-    dispatch(deleteTodo(id));    
+    deleteTodo({id});    
   }
   
     return (

@@ -1,14 +1,16 @@
 import React, {  useState } from "react";
-import {useDispatch} from 'react-redux';
-import {addTodo} from '../redux/actions'
+import { useStoreActions } from 'easy-peasy';
+
 
 export function AddTodo() {
   const [title, setTitle] = useState("");
-  const dispatch = useDispatch();
+
+  const addTodo = useStoreActions ( actions => actions.todos.addTodo)
+
   const onChange = e => setTitle(e.target.value);
   const onSubmit = e => {
     e.preventDefault();
-    dispatch(addTodo(title));
+    addTodo ({ title:title});
     setTitle("");
   };
 
