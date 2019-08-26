@@ -5,14 +5,13 @@ import "./App.css";
 import Header from "./components/layout/Header";
 import AddTodo from "./components/AddTodo";
 import About from "./components/pages/About";
-import Axios from "axios";
+
 
 class App extends Component {
-  state = {
-    todos: []
-  };
 
-  componentDidMount() {
+  
+
+/*   componentDidMount() {
     Axios.get("https://jsonplaceholder.typicode.com/todos?_limit=10").then(
       response => {
         this.setState({ todos: response.data });
@@ -33,9 +32,9 @@ class App extends Component {
           todos: this.state.todos.filter(item => item.id !== id)
         })
     );
-  };
+  }; */
 
-  addEvent = title => {
+   /* addEvent = title => {
     //let maxId = this.state.todos.reduce((max, current) => (current.id > max ? current.id : max), 0);
     Axios.post("https://jsonplaceholder.typicode.com/todos", {
       title: title,
@@ -45,7 +44,7 @@ class App extends Component {
         todos: this.state.todos.concat(response.data)
       })
     );
-  };
+  };  */
   render() {
 
     return (
@@ -56,16 +55,12 @@ class App extends Component {
             <Route
               exact
               path="/"
-              render={props => (
+              render={ ()=>
                 <React.Fragment>
-                  <AddTodo addEvent={title => this.addEvent(title)} />
-                  <Todos
-                    todos={this.state.todos}
-                    markComplete={this.markComplete}
-                    deleted={this.deleted}
-                  />
+                  <AddTodo />
+                  <Todos />
                 </React.Fragment>
-              )}
+              }
             ></Route>
             <Route path="/about" component={About} />
           </div>

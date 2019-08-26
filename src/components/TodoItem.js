@@ -1,27 +1,36 @@
-import React, { Component } from 'react'
+import React from 'react'
+import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
+import { deleteTodo, toggleTodo} from "../redux/actions";
 
 
-export class TodoItem extends Component {
-  
-  getStyle = () => ({
+export function TodoItem({todo}) {
+
+  const dispatch = useDispatch();
+  const getStyle = () => ({
     background: '#f4f4f4',
     padding: '10px',
     borderBottom: '1px #ccc dotted',
-    textDecoration: (this.props.todo.completed?'line-through':'none')})
+    textDecoration: (todo.completed?'line-through':'none')})
   
+  function markComplete(id){
+    dispatch(toggleTodo(id));
+  }
 
-  render() {
+  function handleDeleteTodo(id){
+    dispatch(deleteTodo(id));    
+  }
+  
     return (
-      <div style={this.getStyle()}>
+      <div style={getStyle()}>
         <p>
-          <input style={{marginRight:'10px'}} defaultChecked={this.props.todo.completed} type="checkbox" onChange={() => this.props.markComplete(this.props.todo.id)} /> 
-          {this.props.todo.title}
-          <button style={buttonStyle} onClick={() => this.props.deleted(this.props.todo.id)}>X</button>
+          <input style={{marginRight:'10px'}} defaultChecked={todo.completed} type="checkbox" onChange={() => markComplete(todo.id)} /> 
+          {todo.title}
+          <button style={buttonStyle} onClick={() => handleDeleteTodo(todo.id)}>X</button>
           </p>
       </div>
     )
-  }
+  
 }
 
 const buttonStyle = {
@@ -34,14 +43,8 @@ const buttonStyle = {
   cursor:'pointer',
   fontWeight:'bold'
 }
-TodoItem.proTypes = {
+TodoItem.propTypes = {
   todo : PropTypes.object.isRequired
-}
-
-TodoItem.proTypes = {
-  todos : PropTypes.array.isRequired,
-  markComplete : PropTypes.func.isRequired,
-  deleted : PropTypes.func.isRequired,
 }
 
 export default TodoItem
