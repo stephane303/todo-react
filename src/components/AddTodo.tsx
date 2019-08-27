@@ -1,16 +1,16 @@
-import React, {  useState } from "react";
-import { useStoreActions } from 'easy-peasy';
+import React, { useState } from "react";
+import { useStoreActions } from '../store/hooks';
 
 
 export function AddTodo() {
   const [title, setTitle] = useState("");
 
-  const addTodo = useStoreActions ( actions => actions.todos.addTodo)
+  const addTodo = useStoreActions(actions => actions.todos.addTodo)
 
-  const onChange = e => setTitle(e.target.value);
-  const onSubmit = e => {
+  const onChange = (e: React.ChangeEvent) => setTitle((e.currentTarget as HTMLInputElement).value);
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addTodo ({ title:title});
+    addTodo(title);
     setTitle("");
   };
 
