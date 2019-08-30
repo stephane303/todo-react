@@ -8,7 +8,7 @@ import About from "./components/pages/About";
 
 
 class App extends Component {
- 
+
   render() {
 
     return (
@@ -19,7 +19,7 @@ class App extends Component {
             <Route
               exact
               path="/"
-              render={ ()=>
+              render={() =>
                 <React.Fragment>
                   <AddTodo />
                   <Todos />

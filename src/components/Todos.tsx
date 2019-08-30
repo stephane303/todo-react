@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useStoreActions, useStoreState } from '../store/hooks';
 import TodoItem from "./TodoItem";
+import { Todo } from '../store/models'
 
 function Todos() {
-  const todos = useStoreState(state => state.todos.data);
+  const todos: Todo[] = useStoreState(state => state.todos.todos);
   const fetchTodos = useStoreActions(actions => actions.todos.fetchTodos)
 
   useEffect(() => {

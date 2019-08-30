@@ -5,15 +5,15 @@ import { addTodo, deleteTodo, getAll } from '../services'
 let uid = 2000;
 
 const todosModel: TodosModel = {
-  data: [],
+  todos: [],
 
-  addTodo: thunk(async (actions, title) => {
-    let response = await addTodo({ title: title });
+  addTodo: thunk(async (actions, todo) => {
+    let response = await addTodo(todo);
     actions.addTodoSuccess({ ...response.data, id: ++uid });
   }),
 
   addTodoSuccess: action((state, payload) => {
-    state.data.push(payload);
+    state.todos.push(payload);
   }),
 
   fetchTodos: thunk(async (actions, payload) => {
@@ -23,20 +23,21 @@ const todosModel: TodosModel = {
   }),
 
   setTodos: action((state, payload) => {
-    state.data = payload;
+    state.todos = payload;
   }),
 
   toggleTodo: action((state, id) => {
-    let item: Todo = state.data.find(item => item.id === id)!;
+    let item: Todo = state.todos.find(item => item.id === id)!;
     item.completed = !item.completed;
   }),
 
   deleteTodoSuccess: action((state, id) => {
-    state.data = state.data.filter(item => item.id !== id);
+    state.todos = state.todos.filter(item => item.id !== id);
   }),
 
   deleteTodo: thunk(async (actions, id) => {
-    await deleteTodo(id);
+    let response = await deleteTodo(id);
+    console.log(response);
     actions.deleteTodoSuccess(id);
   })
 };

@@ -14,12 +14,16 @@ export function TodoItem({ todo }: { todo: Todo }) {
     textDecoration: (todo.completed ? 'line-through' : 'none')
   })
 
-  function markComplete(id: number) {
-    toggleTodo(id);
+  function markComplete(id: number | undefined) {
+    if (id) {
+      toggleTodo(id);
+    }
   }
 
-  function handleDeleteTodo(id: number) {
-    deleteTodo(id);
+  function handleDeleteTodo(id: number | undefined) {
+    if (id) {
+      deleteTodo(id);
+    }
   }
 
   return (

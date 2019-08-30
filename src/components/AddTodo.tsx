@@ -10,7 +10,10 @@ export function AddTodo() {
   const onChange = (e: React.ChangeEvent) => setTitle((e.currentTarget as HTMLInputElement).value);
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addTodo(title);
+    addTodo({
+      title,
+      completed: false
+    });
     setTitle("");
   };
 
