@@ -7,8 +7,8 @@ let uid = 2000;
 const todosModel: TodosModel = {
   data: [],
 
-  addTodo: thunk(async (actions, todo) => {
-    let response = await addTodo(todo);
+  addTodo: thunk(async (actions, title) => {
+    let response = await addTodo({ title: title });
     actions.addTodoSuccess({ ...response.data, id: ++uid });
   }),
 
